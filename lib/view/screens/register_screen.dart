@@ -1,3 +1,4 @@
+import 'package:blog_app/view/screens/signup_screen.dart';
 import 'package:blog_app/view/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: 50,),
             CustomButton(
                 title: 'Register',
-                onPressed: (){}),
+                onPressed: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context)=>SignupScreen()));
+                }),
             SizedBox(height: 50,),
             CustomButton(
                 title: 'Login',
