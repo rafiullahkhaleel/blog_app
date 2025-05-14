@@ -1,4 +1,5 @@
 import 'package:blog_app/view/widgets/custom_button.dart';
+import 'package:blog_app/view/widgets/custom_field.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -30,57 +31,25 @@ class _SignupScreenState extends State<SignupScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 40,
               children: [
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green.shade700),
-                    ),
-                    labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.green.shade700),
-                    prefixIcon: Icon(Icons.email_outlined),
-                    prefixIconColor: Colors.green.shade700,
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter email';
-                    } else {
-                      return null;
+                CustomField(
+                  labelText: 'Email',
+                  icon: Icon(Icons.email_outlined),
+                ),
+                CustomField(
+                  labelText: 'Password',
+                  icon: Icon(Icons.password_outlined),
+                ),
+                CustomButton(
+                  title: 'Register',
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      passwordController.clear();
+                      emailController.clear();
                     }
                   },
                 ),
-                SizedBox(height: 40),
-                TextFormField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green.shade700),
-                    ),
-                    labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.green.shade700),
-                    prefixIcon: Icon(Icons.email_outlined),
-                    prefixIconColor: Colors.green.shade700,
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter password';
-                    } else if (value.length < 6) {
-                      return 'At least 6 characters are required';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(height: 40),
-                CustomButton(title: 'Register', onPressed: () {
-                  if(formKey.currentState!.validate()){
-                    passwordController.clear();
-                    emailController.clear();
-                  }
-                }),
               ],
             ),
           ),
