@@ -1,7 +1,10 @@
 import 'package:blog_app/firebase_options.dart';
-import 'package:blog_app/view/screens/register_screen.dart';
+import 'package:blog_app/provider/auth/login_provider.dart';
+import 'package:blog_app/provider/auth/signup_provider.dart';
+import 'package:blog_app/view/screens/auth/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,11 +18,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SignUpProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(primarySwatch: Colors.green),
+        home: const RegisterScreen(),
       ),
-      home: const RegisterScreen(),
     );
   }
 }

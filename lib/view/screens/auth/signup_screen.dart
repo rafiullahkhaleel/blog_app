@@ -1,6 +1,9 @@
 import 'package:blog_app/view/widgets/custom_button.dart';
 import 'package:blog_app/view/widgets/custom_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../provider/auth/signup_provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -10,11 +13,10 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<SignUpProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,7 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
         centerTitle: true,
       ),
       body: Form(
-        key: formKey,
+        key: provider.formKey,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -35,19 +37,27 @@ class _SignupScreenState extends State<SignupScreen> {
               children: [
                 CustomField(
                   labelText: 'Email',
+                  controller: provider.emailController,
                   icon: Icon(Icons.email_outlined),
+                  emptyError: 'Please enter your Email',
                 ),
                 CustomField(
                   labelText: 'Password',
+                  controller: provider.passwordController,
                   icon: Icon(Icons.password_outlined),
+                  emptyError: 'Please enter your Password',
                 ),
-                CustomButton(
-                  title: 'Register',
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      passwordController.clear();
-                      emailController.clear();
-                    }
+                Consumer<SignUpProvider>(
+                  builder: (context, provider, child) {
+                    return CustomButton(
+                      title: 'Register',
+                      isLoading: provider.isLoading,
+                      onPressed: () {
+                        if (provider.formKey.currentState!.validate()) {
+                          provider.signUp(context);
+                        }
+                      },
+                    );
                   },
                 ),
               ],
