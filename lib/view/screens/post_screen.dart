@@ -66,6 +66,7 @@ class _PostScreenState extends State<PostScreen> {
                 CustomButton(
                   title: ('Upload'),
                   onPressed: () {
+                    provider.saveData(context);
                   },
                 ),
               ],

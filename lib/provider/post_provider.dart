@@ -20,6 +20,34 @@ class PostProvider extends ChangeNotifier {
     }
     Navigator.of(context).pop();
   }
+  String? validateInputs() {
+    if (_image == null) {
+      return 'Image is required';
+    } else if (titleController.text.trim().isEmpty) {
+      return 'Title is required';
+    } else if (descriptionController.text.trim().isEmpty) {
+      return 'Description is required';
+    }
+    return null;
+  }
 
+  Future<void> saveData(BuildContext context) async {
+    final errorMessage = validateInputs();
+    if (errorMessage != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } else {
+      debugPrint(" Data saved: ${titleController.text}, ${descriptionController.text}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Blog uploaded successfully")),
+      );
+
+      titleController.clear();
+      descriptionController.clear();
+      _image = null;
+      notifyListeners();
+    }
+  }
 
 }
