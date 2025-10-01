@@ -1,6 +1,7 @@
 import 'package:blog_app/firebase_options.dart';
 import 'package:blog_app/provider/auth/login_provider.dart';
 import 'package:blog_app/provider/auth/signup_provider.dart';
+import 'package:blog_app/provider/post_provider.dart';
 import 'package:blog_app/view/screens/auth/register_screen.dart';
 import 'package:blog_app/view/screens/home_screen.dart';
 import 'package:blog_app/view/screens/splash_screen.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => SignUpProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => PostProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
