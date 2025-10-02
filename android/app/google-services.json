@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "219451304877",
-    "project_id": "flutter-application-cc172",
-    "storage_bucket": "flutter-application-cc172.firebasestorage.app"
+    "project_number": "688062423145",
+    "project_id": "e-banquet",
+    "storage_bucket": "e-banquet.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:219451304877:android:03502e108d5f3c8adccf24",
+        "mobilesdk_app_id": "1:688062423145:android:46d1c70dda584dea1b02f8",
         "android_client_info": {
           "package_name": "com.example.blog_app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAYQbadZbymyi1CcCGcWsRbhx3sDakm1_U"
+          "current_key": "AIzaSyBTOmwH7Bh4LSf-zXH5-lJ5JKyv2vZ_4Pk"
         }
       ],
       "services": {
@@ -26,15 +26,34 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:219451304877:android:62dc768ba4ed0532dccf24",
+        "mobilesdk_app_id": "1:688062423145:android:ddd33b516daee2bb1b02f8",
         "android_client_info": {
-          "package_name": "com.example.task"
+          "package_name": "com.example.e_banquet"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAYQbadZbymyi1CcCGcWsRbhx3sDakm1_U"
+          "current_key": "AIzaSyBTOmwH7Bh4LSf-zXH5-lJ5JKyv2vZ_4Pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688062423145:android:175fbb1b0236e9141b02f8",
+        "android_client_info": {
+          "package_name": "com.example.firebase_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTOmwH7Bh4LSf-zXH5-lJ5JKyv2vZ_4Pk"
         }
       ],
       "services": {

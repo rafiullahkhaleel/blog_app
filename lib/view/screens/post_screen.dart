@@ -1,5 +1,4 @@
 import 'package:blog_app/provider/post_provider.dart';
-import 'package:blog_app/utils/utils.dart';
 import 'package:blog_app/view/widgets/custom_button.dart';
 import 'package:blog_app/view/widgets/custom_dialog.dart';
 import 'package:blog_app/view/widgets/custom_field.dart';
@@ -64,6 +63,7 @@ class _PostScreenState extends State<PostScreen> {
                 ),
                 Spacer(),
                 CustomButton(
+                  isLoading : provider.isLoading,
                   title: ('Upload'),
                   onPressed: () {
                     provider.saveData(context);
