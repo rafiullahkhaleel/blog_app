@@ -53,14 +53,13 @@ class PostProvider extends ChangeNotifier {
             .putFile(_image!);
         TaskSnapshot snapshot = await uploadTask;
         String imageUrl = await snapshot.ref.getDownloadURL();
-        //String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
         DocumentReference documentReference =
             FirebaseFirestore.instance.collection('data').doc();
         await documentReference.set({
           'imageUrl': imageUrl,
           'title': titleController.text,
           'description': descriptionController.text,
-          'id': documentReference.id,
+          'docsId': documentReference.id,
           'createAt': Timestamp.now(),
         });
 
