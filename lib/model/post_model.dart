@@ -5,7 +5,7 @@ class PostModal {
   final String description;
   final String imageUrl;
   final String docsId;
-  final String createAt;
+  final DateTime createAt;
 
   PostModal({
     required this.title,
@@ -22,8 +22,8 @@ class PostModal {
      imageUrl: json['imageUrl'] ?? '',
      docsId: json['docsId'] ?? '',
      createAt: (json['createAt'] is Timestamp)
-         ? (json['createAt'] as Timestamp).toDate().toString()
-         : '',
+         ? (json['createAt'] as Timestamp).toDate()
+         : DateTime(1970),
    );
 
  }

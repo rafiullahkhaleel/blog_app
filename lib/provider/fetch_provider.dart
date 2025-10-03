@@ -17,7 +17,11 @@ class FetchProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     try {
-      final data = FirebaseFirestore.instance.collection('data').get();
+      final data = await FirebaseFirestore.instance.collection('data').get();
+      _snapshot =
+          data.docs.map((doc) {
+            return PostModal.fromJson(doc.data());
+          }).toList();
     } catch (e) {
       _error = e.toString();
       notifyListeners();

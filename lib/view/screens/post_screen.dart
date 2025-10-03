@@ -26,50 +26,53 @@ class _PostScreenState extends State<PostScreen> {
         padding: const EdgeInsets.all(10),
         child: Consumer<PostProvider>(
           builder: (context, provider, child) {
-            return Column(
-              spacing: 20,
-              children: [
-                InkWell(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CustomDialog();
-                      },
-                    );
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * .25,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                      borderRadius: BorderRadius.circular(20),
+            return SingleChildScrollView(
+              child: Column(
+                spacing: 20,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomDialog();
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * .25,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child:
+                          provider.image != null
+                              ? Image.file(provider.image!,fit: BoxFit.cover,)
+                              : Center(child: Icon(Icons.photo, size: 50)),
                     ),
-                    child:
-                        provider.image != null
-                            ? Image.file(provider.image!)
-                            : Center(child: Icon(Icons.photo, size: 50)),
                   ),
-                ),
-                CustomField(
-                  labelText: 'Title',
-                  controller: provider.titleController,
-                  icon: Icon(Icons.title),
-                ),
-                CustomField(
-                  labelText: 'Description',
-                  controller: provider.descriptionController,
-                  icon: Icon(Icons.description_outlined),
-                ),
-                Spacer(),
-                CustomButton(
-                  isLoading : provider.isLoading,
-                  title: ('Upload'),
-                  onPressed: () {
-                    provider.saveData(context);
-                  },
-                ),
-              ],
+                  CustomField(
+                    labelText: 'Title',
+                    controller: provider.titleController,
+                    icon: Icon(Icons.title),
+                  ),
+                  CustomField(
+                    labelText: 'Description',
+                    controller: provider.descriptionController,
+                    icon: Icon(Icons.description_outlined),
+                    maxLines: 5,
+                    minLines: 1,
+                  ),
+                  CustomButton(
+                    isLoading: provider.isLoading,
+                    title: ('Upload'),
+                    onPressed: () {
+                      provider.saveData(context);
+                    },
+                  ),
+                ],
+              ),
             );
           },
         ),

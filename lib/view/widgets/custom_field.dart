@@ -6,6 +6,8 @@ class CustomField extends StatelessWidget {
   final Icon? icon;
   final String? emptyError;
   final String? lengthError;
+  final int? maxLines;
+  final int? minLines;
   const CustomField({
     super.key,
     this.controller,
@@ -13,6 +15,8 @@ class CustomField extends StatelessWidget {
     this.icon,
     this.emptyError,
     this.lengthError,
+    this.maxLines,
+    this.minLines,
   });
 
   @override
@@ -22,7 +26,7 @@ class CustomField extends StatelessWidget {
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green.shade700)
+          borderSide: BorderSide(color: Colors.green.shade700),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.green.shade300),
@@ -32,6 +36,8 @@ class CustomField extends StatelessWidget {
         prefixIcon: icon,
         prefixIconColor: Colors.green.shade700,
       ),
+      maxLines: maxLines,
+      minLines: minLines,
       validator: (value) {
         if (value!.isEmpty) {
           return emptyError;
