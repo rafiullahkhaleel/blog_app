@@ -1,4 +1,5 @@
 import 'package:blog_app/provider/auth/login_provider.dart';
+import 'package:blog_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 40,
+              spacing: 10,
               children: [
                 CustomField(
                   labelText: 'Email',
@@ -40,11 +41,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: Icon(Icons.email_outlined),
                   emptyError: 'Please enter your Email',
                 ),
+                SizedBox(height: 10,),
                 CustomField(
                   labelText: 'Password',
                   controller: provider.passwordController,
                   icon: Icon(Icons.password_outlined),
                   emptyError: 'Please enter your Password',
+                ),
+                  Consumer<LoginProvider>(
+                  builder: (context, provider, child) {
+                    return Align(
+                      alignment: Alignment.centerRight,
+                      child:
+                      provider.forgotLoading
+                          ? CircularProgressIndicator()
+                          : TextButton(
+                        onPressed: () {
+                          if (provider.emailController.text
+                              .trim()
+                              .isEmpty) {
+                            Utils.snackMessage(
+                              context,
+                              'Please enter your email',
+                            );
+                          } else if (!provider.emailController.text.contains(
+                              '@gmail.com')) {
+                            Utils.snackMessage(
+                              context,
+                              'Please enter a valid email',
+                            );
+                          } else {
+                            provider.forgotPassword(context);
+                          }
+                        },
+                        child: Text('Forgot Password?'),
+                      ),
+                    );
+                  },
                 ),
                 Consumer<LoginProvider>(
                   builder: (context, provider, child) {
