@@ -1,3 +1,4 @@
+import 'package:blog_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomField extends StatelessWidget {
@@ -27,15 +28,15 @@ class CustomField extends StatelessWidget {
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green.shade700),
+          borderSide: BorderSide(color: AppColors.mainColor),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green.shade300),
+          borderSide: BorderSide(color: AppColors.mainColor),
         ),
         labelText: labelText,
-        labelStyle: TextStyle(color: Colors.green.shade700),
+        labelStyle: TextStyle(color: AppColors.mainColor),
         prefixIcon: icon,
-        prefixIconColor: Colors.green.shade700,
+        prefixIconColor: AppColors.mainColor,
       ),
       maxLines: maxLines,
       minLines: minLines,

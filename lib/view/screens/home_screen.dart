@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/constants.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -81,7 +83,7 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(width: 5),
           ],
-          backgroundColor: Colors.green.shade700,
+          backgroundColor: AppColors.mainColor,
           centerTitle: true,
         ),
         body: Consumer<FetchProvider>(
@@ -99,10 +101,9 @@ class HomeScreen extends StatelessWidget {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8.0,
-                      right: 8,
-                      top: 10,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 10,
                     ),
                     child: CustomField(
                       labelText: 'Search',
@@ -151,8 +152,9 @@ class HomeScreen extends StatelessWidget {
                                           child,
                                           loadingProgress,
                                         ) {
-                                          if (loadingProgress == null)
+                                          if (loadingProgress == null) {
                                             return child;
+                                          }
                                           return Container(
                                             height: height * .3,
                                             width: double.infinity,
@@ -250,12 +252,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-// else if (provider.snapshot.isEmpty) {
-// return Center(
-// child: Text(
-// 'No data available',
-// style: TextStyle(color: Colors.grey, fontSize: 16),
-// ),
-// );
-// }

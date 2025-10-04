@@ -1,6 +1,9 @@
 import 'package:blog_app/model/post_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../view/screens/auth/register_screen.dart';
 
 class FetchProvider extends ChangeNotifier {
   TextEditingController filterController = TextEditingController();
@@ -50,4 +53,5 @@ class FetchProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 }

@@ -1,3 +1,4 @@
+import 'package:blog_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -20,7 +21,7 @@ class CustomButton extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: Colors.green.shade700,
+          color: AppColors.mainColor,
         ),
         child:
             isLoading
@@ -29,7 +30,7 @@ class CustomButton extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.mainTextColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
                     ),
