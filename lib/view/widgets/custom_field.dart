@@ -8,6 +8,7 @@ class CustomField extends StatelessWidget {
   final String? lengthError;
   final int? maxLines;
   final int? minLines;
+    final ValueChanged? onChanged;
   const CustomField({
     super.key,
     this.controller,
@@ -16,7 +17,7 @@ class CustomField extends StatelessWidget {
     this.emptyError,
     this.lengthError,
     this.maxLines,
-    this.minLines,
+    this.minLines,  this.onChanged,
   });
 
   @override
@@ -38,6 +39,7 @@ class CustomField extends StatelessWidget {
       ),
       maxLines: maxLines,
       minLines: minLines,
+      onChanged: onChanged,
       validator: (value) {
         if (value!.isEmpty) {
           return emptyError;

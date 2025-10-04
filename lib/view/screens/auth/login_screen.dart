@@ -41,41 +41,41 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: Icon(Icons.email_outlined),
                   emptyError: 'Please enter your Email',
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                 CustomField(
                   labelText: 'Password',
                   controller: provider.passwordController,
                   icon: Icon(Icons.password_outlined),
                   emptyError: 'Please enter your Password',
                 ),
-                  Consumer<LoginProvider>(
+                Consumer<LoginProvider>(
                   builder: (context, provider, child) {
                     return Align(
                       alignment: Alignment.centerRight,
                       child:
-                      provider.forgotLoading
-                          ? CircularProgressIndicator()
-                          : TextButton(
-                        onPressed: () {
-                          if (provider.emailController.text
-                              .trim()
-                              .isEmpty) {
-                            Utils.snackMessage(
-                              context,
-                              'Please enter your email',
-                            );
-                          } else if (!provider.emailController.text.contains(
-                              '@gmail.com')) {
-                            Utils.snackMessage(
-                              context,
-                              'Please enter a valid email',
-                            );
-                          } else {
-                            provider.forgotPassword(context);
-                          }
-                        },
-                        child: Text('Forgot Password?'),
-                      ),
+                          provider.forgotLoading
+                              ? CircularProgressIndicator()
+                              : TextButton(
+                                onPressed: () {
+                                  if (provider.emailController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    Utils.snackMessage(
+                                      context,
+                                      'Please enter your email',
+                                    );
+                                  } else if (!provider.emailController.text
+                                      .contains('@gmail.com')) {
+                                    Utils.snackMessage(
+                                      context,
+                                      'Please enter a valid email',
+                                    );
+                                  } else {
+                                    provider.forgotPassword(context);
+                                  }
+                                },
+                                child: Text('Forgot Password?'),
+                              ),
                     );
                   },
                 ),
