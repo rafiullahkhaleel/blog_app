@@ -1,11 +1,9 @@
 import 'package:blog_app/model/post_model.dart';
 import 'package:blog_app/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-import '../view/screens/auth/register_screen.dart';
 
 class FetchProvider extends ChangeNotifier {
   TextEditingController filterController = TextEditingController();
@@ -69,10 +67,7 @@ class FetchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearSelection() {
-    _selectedItems.clear();
-    notifyListeners();
-  }
+
 
   Future<void> delete(BuildContext context) async {
     for (var entry in selectedItems.entries) {
@@ -88,7 +83,7 @@ class FetchProvider extends ChangeNotifier {
     _snapshot.removeWhere((item){
      return _selectedItems.keys.contains(item.docsId);
     });
-    clearSelection();
+    _selectedItems.clear();
     notifyListeners();
   }
 }

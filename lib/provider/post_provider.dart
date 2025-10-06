@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:blog_app/model/post_model.dart';
 import 'package:blog_app/utils/utils.dart';
 import 'package:blog_app/view/screens/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,7 +29,7 @@ class PostProvider extends ChangeNotifier {
   }
 
   String? validateInputs() {
-    if (_image == null) {
+    if (_image == null && _imageUrl == null) {
       return 'Image is required';
     } else if (titleController.text.trim().isEmpty) {
       return 'Title is required';
@@ -66,6 +67,73 @@ class PostProvider extends ChangeNotifier {
         titleController.clear();
         descriptionController.clear();
         _image = null;
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      } catch (e) {
+        debugPrint(e.toString());
+      } finally {
+        _isLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+
+
+  String? _imageUrl;
+  String? get imageUrl => _imageUrl;
+
+  bool _isEditeMode = false;
+  bool get isEditeMode => _isEditeMode;
+  String? docsId;
+
+  void forEdit(PostModal data) {
+    _imageUrl = data.imageUrl;
+    titleController.text = data.title;
+    descriptionController.text = data.description;
+    _isEditeMode = true;
+
+  }
+
+  Future<void> updateData(BuildContext context) async {
+    final errorMessage = validateInputs();
+
+    if (errorMessage != null) {
+      Utils.snackMessage(context, errorMessage);
+      return;
+    }
+    else {
+      _isLoading = true;
+      notifyListeners();
+      try {
+        String? imageUrl;
+        if (_image != null) {
+          final String path = DateTime.now().millisecondsSinceEpoch.toString();
+          UploadTask uploadTask = FirebaseStorage.instance
+              .ref()
+              .child('images')
+              .child(path)
+              .putFile(_image!);
+          TaskSnapshot snapshot = await uploadTask;
+          imageUrl = await snapshot.ref.getDownloadURL();
+        } else {
+          imageUrl = _imageUrl;
+        }
+
+        await FirebaseFirestore.instance.collection('data').doc(docsId).update({
+          'imageUrl': imageUrl,
+          'title': titleController.text,
+          'description': descriptionController.text,
+          'createAt': Timestamp.now(),
+        });
+        titleController.clear();
+        descriptionController.clear();
+        _image = null;
+        _imageUrl = null;
+        _isEditeMode = false;
         Navigator.of(context).pop();
         Navigator.pushReplacement(
           context,

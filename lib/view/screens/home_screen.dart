@@ -1,4 +1,5 @@
 import 'package:blog_app/provider/fetch_provider.dart';
+import 'package:blog_app/provider/post_provider.dart';
 import 'package:blog_app/utils/cached_network_image/image_save.dart';
 import 'package:blog_app/view/screens/auth/register_screen.dart';
 import 'package:blog_app/view/screens/post_screen.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final postProvider = Provider.of<PostProvider>(context, listen: false);
     final height = MediaQuery.of(context).size.height;
 
     return ChangeNotifierProvider(
@@ -40,6 +42,23 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     actions: [
+                      if (provider.selectedItems.length == 1)
+                        IconButton(
+                          icon: Icon(Icons.edit, color: Colors.white),
+                          onPressed: () {
+                            final docsId = provider.selectedItems.keys.first;
+                            final data = provider.snapshot.firstWhere(
+                              (element) => element.docsId == docsId,
+                            );
+                            postProvider.docsId = docsId;
+                            postProvider.forEdit(data);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const PostScreen(),
+                              ),
+                            );
+                          },
+                        ),
                       if (provider.isSelectionMode)
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.white),

@@ -1,4 +1,5 @@
 import 'package:blog_app/provider/post_provider.dart';
+import 'package:blog_app/utils/cached_network_image/image_save.dart';
 import 'package:blog_app/view/widgets/custom_button.dart';
 import 'package:blog_app/view/widgets/custom_dialog.dart';
 import 'package:blog_app/view/widgets/custom_field.dart';
@@ -47,8 +48,10 @@ class _PostScreenState extends State<PostScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child:
-                          provider.image != null
-                              ? Image.file(provider.image!,fit: BoxFit.cover,)
+                          provider.imageUrl != null
+                              ? SmartCacheImage(url: provider.imageUrl!)
+                              : provider.image != null
+                              ? Image.file(provider.image!, fit: BoxFit.cover)
                               : Center(child: Icon(Icons.photo, size: 50)),
                     ),
                   ),
@@ -68,7 +71,11 @@ class _PostScreenState extends State<PostScreen> {
                     isLoading: provider.isLoading,
                     title: ('Upload'),
                     onPressed: () {
-                      provider.saveData(context);
+                      if (provider.isEditeMode) {
+                        provider.updateData(context);
+                      } else {
+                        provider.saveData(context);
+                      }
                     },
                   ),
                 ],
