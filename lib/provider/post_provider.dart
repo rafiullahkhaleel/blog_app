@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:blog_app/utils/utils.dart';
+import 'package:blog_app/view/screens/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -62,16 +63,17 @@ class PostProvider extends ChangeNotifier {
           'docsId': documentReference.id,
           'createAt': Timestamp.now(),
         });
-
-        Utils.snackMessage(context, 'Blog uploaded successfully');
-
         titleController.clear();
         descriptionController.clear();
         _image = null;
-        notifyListeners();
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
       } catch (e) {
         debugPrint(e.toString());
-      }finally{
+      } finally {
         _isLoading = false;
         notifyListeners();
       }

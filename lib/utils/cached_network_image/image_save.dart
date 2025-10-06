@@ -33,12 +33,16 @@ class SmartCacheImage extends StatefulWidget {
   final Duration cacheDuration;
   final BoxFit fit;
   final Widget? errorWidget;
+  final double? height;
+  final double? width;
   const SmartCacheImage({
     super.key,
     required this.url,
     this.cacheDuration = const Duration(days: 7),
     this.fit = BoxFit.cover,
     this.errorWidget,
+     this.height,
+     this.width,
   });
 
   @override
@@ -76,13 +80,22 @@ class _SmartCacheImageState extends State<SmartCacheImage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget child;
     if (isLoading) {
-      return const CircularProgressIndicator();
-    }
-    if (hasError || currentFile == null) {
-      return widget.errorWidget ??
+      child = Center(
+        child: SizedBox(
+            height: 40,
+            width: 40,
+            child: const CircularProgressIndicator()),
+      );
+    } else if (hasError || currentFile == null) {
+      child =
+          widget.errorWidget ??
           const Icon(Icons.broken_image, color: Colors.red);
+    } else {
+      child = Image.file(currentFile!, fit: widget.fit);
     }
-    return Image.file(currentFile!, fit: widget.fit);
+
+    return SizedBox(height: widget.height, width: widget.width, child: child);
   }
 }
