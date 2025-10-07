@@ -4,6 +4,7 @@ import 'package:blog_app/utils/cached_network_image/image_save.dart';
 import 'package:blog_app/view/screens/auth/register_screen.dart';
 import 'package:blog_app/view/screens/post_screen.dart';
 import 'package:blog_app/view/widgets/custom_field.dart';
+import 'package:blog_app/view/widgets/delete_confirmation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -63,7 +64,10 @@ class HomeScreen extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.white),
                           onPressed: () {
-                            provider.delete(context);
+                            showDeleteConfirmationDialog(context: context, onDelete: (){
+                              provider.delete(context);
+                            });
+
                           },
                         )
                       else ...[
@@ -308,6 +312,22 @@ class HomeScreen extends StatelessWidget {
                                                     height: 1.5,
                                                   ),
                                                 ),
+                                                SizedBox(height: 10),
+                                                if (data.isEdit.isNotEmpty)
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                      data.isEdit,
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors
+                                                                .grey
+                                                                .shade600,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                  ),
                                               ],
                                             ),
                                           ),

@@ -69,21 +69,34 @@ class FetchProvider extends ChangeNotifier {
 
 
 
+
   Future<void> delete(BuildContext context) async {
-    for (var entry in selectedItems.entries) {
-      final id = entry.key;
-      final image = entry.value;
-      try {
+
+    try {
+      // ہم ایک ایک item delete کریں گے
+      for (var entry in selectedItems.entries) {
+        final id = entry.key;
+        final image = entry.value;
+
+        // Firestore سے delete
         await FirebaseFirestore.instance.collection('data').doc(id).delete();
+
+        // Firebase Storage سے image delete
         await FirebaseStorage.instance.refFromURL(image).delete();
-      } catch (e) {
-        Utils.snackMessage(context, 'ERROR OCCURRED $e');
+
+        // لوکل list سے remove کریں جب واقعی delete ہو جائے
+        _snapshot.removeWhere((item) => item.docsId == id);
       }
+
+      // آخر میں selections clear
+      _selectedItems.clear();
+
+      Utils.snackMessage(context, 'Selected items deleted successfully');
+    } catch (e) {
+      Utils.snackMessage(context, 'Error occurred: $e');
+    } finally {
+      notifyListeners();
     }
-    _snapshot.removeWhere((item){
-     return _selectedItems.keys.contains(item.docsId);
-    });
-    _selectedItems.clear();
-    notifyListeners();
   }
+
 }

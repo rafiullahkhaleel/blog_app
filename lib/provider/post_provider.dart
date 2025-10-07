@@ -81,8 +81,8 @@ class PostProvider extends ChangeNotifier {
     }
   }
 
-
-
+  String? _oldTitle;
+  String? _oldDescription;
   String? _imageUrl;
   String? get imageUrl => _imageUrl;
 
@@ -96,16 +96,27 @@ class PostProvider extends ChangeNotifier {
     descriptionController.text = data.description;
     _isEditeMode = true;
 
+    _oldTitle = data.title.trim();
+    _oldDescription = data.description.trim();
+  }
+
+  bool editValidation() {
+    final bool isTitleSame = titleController.text.trim() == _oldTitle;
+    final bool isDescriptionSame =
+        descriptionController.text.trim() == _oldDescription;
+    final bool isImageSame = _image == null;
+    return isTitleSame && isDescriptionSame && isImageSame;
   }
 
   Future<void> updateData(BuildContext context) async {
-    final errorMessage = validateInputs();
-
-    if (errorMessage != null) {
-      Utils.snackMessage(context, errorMessage);
+    if (validateInputs() != null) {
+      Utils.snackMessage(context, validateInputs()!);
       return;
-    }
-    else {
+    } else if (editValidation()) {
+      Utils.snackMessage(context, 'No changes to update.');
+      Navigator.of(context).pop();
+      return;
+    } else {
       _isLoading = true;
       notifyListeners();
       try {
@@ -119,14 +130,20 @@ class PostProvider extends ChangeNotifier {
               .putFile(_image!);
           TaskSnapshot snapshot = await uploadTask;
           imageUrl = await snapshot.ref.getDownloadURL();
+
         } else {
           imageUrl = _imageUrl;
+        }
+
+        if(_imageUrl != null){
+          await FirebaseStorage.instance.refFromURL(_imageUrl!).delete();
         }
 
         await FirebaseFirestore.instance.collection('data').doc(docsId).update({
           'imageUrl': imageUrl,
           'title': titleController.text,
           'description': descriptionController.text,
+          'isEdit': 'Edited',
           'createAt': Timestamp.now(),
         });
         titleController.clear();

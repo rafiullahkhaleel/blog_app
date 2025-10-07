@@ -48,10 +48,11 @@ class _PostScreenState extends State<PostScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child:
-                          provider.imageUrl != null
-                              ? SmartCacheImage(url: provider.imageUrl!)
-                              : provider.image != null
-                              ? Image.file(provider.image!, fit: BoxFit.cover)
+                           provider.image != null
+                              ? Image.file(provider.image!, fit: BoxFit.cover) :
+                           provider.imageUrl != null
+                               ? SmartCacheImage(url: provider.imageUrl!)
+
                               : Center(child: Icon(Icons.photo, size: 50)),
                     ),
                   ),
