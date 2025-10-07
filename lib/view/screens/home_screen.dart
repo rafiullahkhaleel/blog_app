@@ -64,10 +64,12 @@ class HomeScreen extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.white),
                           onPressed: () {
-                            showDeleteConfirmationDialog(context: context, onDelete: (){
-                              provider.delete(context);
-                            });
-
+                            showDeleteConfirmationDialog(
+                              context: context,
+                              onDelete: () {
+                                provider.delete(context);
+                              },
+                            );
                           },
                         )
                       else ...[
@@ -154,188 +156,243 @@ class HomeScreen extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return Column(
+                        return Stack(
+                          alignment: Alignment.bottomCenter,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 10,
-                              ),
-                              child: CustomField(
-                                labelText: 'Search',
-                                controller: provider.filterController,
-                                onChanged: (value) {
-                                  provider.filter(value);
-                                },
-                              ),
-                            ),
-                            provider.snapshot.isEmpty
-                                ? Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'No data available',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 10,
                                   ),
-                                )
-                                : Expanded(
-                                  child: ListView.builder(
-                                    padding: const EdgeInsets.all(10),
-                                    itemCount: provider.snapshot.length,
-                                    itemBuilder: (context, index) {
-                                      final data = provider.snapshot[index];
-                                      final createAt = data.createAt;
-                                      final isSelected = provider.selectedItems
-                                          .containsKey(data.docsId);
-                                      return GestureDetector(
-                                        onLongPress: () {
-                                          provider.addIdsForDelete(
-                                            data.docsId,
-                                            data.imageUrl,
-                                          );
-                                        },
-                                        onTap:
-                                            provider.isSelectionMode
-                                                ? () {
-                                                  provider.addIdsForDelete(
-                                                    data.docsId,
-                                                    data.imageUrl,
-                                                  );
-                                                }
-                                                : null,
-                                        child: Card(
-                                          color:
-                                              isSelected
-                                                  ? Colors.green.shade200
-                                                  : Colors.white,
-                                          elevation: 5,
-                                          margin: const EdgeInsets.symmetric(
-                                            vertical: 10,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              15,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  child: SmartCacheImage(
-                                                    height: height * .3,
-                                                    width: double.infinity,
-                                                    url: data.imageUrl,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 10),
-                                                Text(
-                                                  data.title,
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 5),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      spacing: 3,
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .access_time_outlined,
-                                                          color:
-                                                              Colors
-                                                                  .grey
-                                                                  .shade600,
-                                                          size: 15,
-                                                        ),
-                                                        Text(
-                                                          DateFormat(
-                                                            'hh:mm a',
-                                                          ).format(createAt),
-                                                          style: TextStyle(
-                                                            color:
-                                                                Colors
-                                                                    .grey
-                                                                    .shade600,
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      spacing: 3,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.date_range,
-                                                          color:
-                                                              Colors
-                                                                  .grey
-                                                                  .shade600,
-                                                          size: 15,
-                                                        ),
-                                                        Text(
-                                                          DateFormat(
-                                                            'dd MMM, yyyy',
-                                                          ).format(createAt),
-                                                          style: TextStyle(
-                                                            color:
-                                                                Colors
-                                                                    .grey
-                                                                    .shade600,
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 10),
-                                                Text(
-                                                  data.description,
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    height: 1.5,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 10),
-                                                if (data.isEdit.isNotEmpty)
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Text(
-                                                      data.isEdit,
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors
-                                                                .grey
-                                                                .shade600,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
+                                  child: CustomField(
+                                    labelText: 'Search',
+                                    controller: provider.filterController,
+                                    onChanged: (value) {
+                                      provider.filter(value);
                                     },
                                   ),
                                 ),
+                                provider.snapshot.isEmpty
+                                    ? Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          'No data available',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    : Expanded(
+                                      child: ListView.builder(
+                                        padding: const EdgeInsets.all(10),
+                                        itemCount: provider.snapshot.length,
+                                        itemBuilder: (context, index) {
+                                          final data = provider.snapshot[index];
+                                          final createAt = data.createAt;
+                                          final isSelected = provider
+                                              .selectedItems
+                                              .containsKey(data.docsId);
+                                          return GestureDetector(
+                                            onLongPress: () {
+                                              provider.addIdsForDelete(
+                                                data.docsId,
+                                                data.imageUrl,
+                                              );
+                                            },
+                                            onTap:
+                                                provider.isSelectionMode
+                                                    ? () {
+                                                      provider.addIdsForDelete(
+                                                        data.docsId,
+                                                        data.imageUrl,
+                                                      );
+                                                    }
+                                                    : null,
+                                            child: Card(
+                                              color:
+                                                  isSelected
+                                                      ? Colors.green.shade200
+                                                      : Colors.white,
+                                              elevation: 5,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 10,
+                                                  ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(
+                                                  10,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            15,
+                                                          ),
+                                                      child: SmartCacheImage(
+                                                        height: height * .3,
+                                                        width: double.infinity,
+                                                        url: data.imageUrl,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Text(
+                                                      data.title,
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          spacing: 3,
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .access_time_outlined,
+                                                              color:
+                                                                  Colors
+                                                                      .grey
+                                                                      .shade600,
+                                                              size: 15,
+                                                            ),
+                                                            Text(
+                                                              DateFormat(
+                                                                'hh:mm a',
+                                                              ).format(
+                                                                createAt,
+                                                              ),
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors
+                                                                        .grey
+                                                                        .shade600,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          spacing: 3,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.date_range,
+                                                              color:
+                                                                  Colors
+                                                                      .grey
+                                                                      .shade600,
+                                                              size: 15,
+                                                            ),
+                                                            Text(
+                                                              DateFormat(
+                                                                'dd MMM, yyyy',
+                                                              ).format(
+                                                                createAt,
+                                                              ),
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors
+                                                                        .grey
+                                                                        .shade600,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Text(
+                                                      data.description,
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        height: 1.5,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    if (data.isEdit.isNotEmpty)
+                                                      Align(
+                                                        alignment:
+                                                            Alignment
+                                                                .centerRight,
+                                                        child: Text(
+                                                          data.isEdit,
+                                                          style: TextStyle(
+                                                            color:
+                                                                Colors
+                                                                    .grey
+                                                                    .shade600,
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                              ],
+                            ),
+                            if (provider.isDeleting)
+                              Container(
+                                color: Colors.black.withOpacity(
+                                  0.6,
+                                ), // semi-transparent overlay
+                                width: double.infinity,
+                                height: double.infinity,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 250,
+                                        child: LinearProgressIndicator(
+                                          value:
+                                              provider.selectedItems.isNotEmpty
+                                                  ? provider.deletingCount /
+                                                      provider
+                                                          .selectedItems
+                                                          .length
+                                                  : null,
+                                          minHeight: 8,
+                                          color: Colors.red,
+                                          backgroundColor: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Text(
+                                        'Deleting ${provider.deletingCount} of ${provider.selectedItems.length}...',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                           ],
                         );
                       }
